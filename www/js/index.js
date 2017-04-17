@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var controller = null
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -27,20 +29,87 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        this.receivedEvent('deviceready');
+        controller = new Controller();
     },
-
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
 };
-
 app.initialize();
+
+
+var Controller = function() {
+    var controller = {
+        self: null,
+        initialize: function() {
+            self = this;
+            this.bindEvents();
+            self.renderView('home-button');
+        },
+
+        bindEvents: function() {
+          $('.tab-button').on('click', this.onTabClick);
+        },
+
+        onTabClick: function(e) {
+          e.preventDefault();
+            // Do nothing if the current tab is selected
+            if ($(this).hasClass('active')) {
+                return;
+            }
+
+            var tabId = $(this).attr('id') ;
+            self.renderView(tabId);
+        },
+
+        scriptFlags: [],
+
+        renderView: function(viewButton) {
+            // Remove class `active` from the previous active tab
+            $('.tab-button').removeClass('active');
+
+            // Add class `active` to the current tab
+            $('#'+viewButton).addClass('active');
+
+            // Get the tab-content container
+            var $tab = $('#tab-content');
+
+            // Empty the content
+            $tab.empty();
+
+            if (viewButton == 'home-button') {
+                $("#tab-content").load("./views/home_view.html"); 
+            } else if (viewButton == 'new-record-button') {
+                $("#tab-content").load("./views/new_record_view.html", function(data) {
+                    if ($.inArray('new_record_view', self.scriptFlags)) {
+                        self.scriptFlags.push('new_record_view');
+                        $.getScript("js/views/new_record_view.js");
+                    }
+                });
+            } else {
+                $("#tab-content").load("./views/all_records_view.html", function(data) {
+                    if ($.inArray('all_records_view', self.scriptFlags)) {
+                        self.scriptFlags.push('all_records_view');
+                        $.getScript("js/views/all_records_view.js");
+                    } else {
+                        recordList.showThisYearOnly();
+                    }
+                });
+            }
+        },
+    };
+
+    controller.initialize();
+    return controller;
+}
+
+
+function validateField(field)
+{
+    if( $(field).val().length === 0 ) {
+        $(this).parents('p').addClass('warning');
+    }
+}
+
+function sortByDate(a, b){
+  var date_a = new Date(a.date);
+  var date_b = new Date(b.date); 
+  return ((date_a < date_b) ? -1 : ((date_a > date_b) ? 1 : 0));
+}
