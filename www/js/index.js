@@ -131,7 +131,8 @@ function loadRecords() {
         json = JSON.parse(storage.getItem(storage.key(i)));
         var record = new Record(json.date,
                                 json.distanceTraveled,
-                                json.fuelUsed,
+                                json.initialTankLevel,
+                                json.dayEndTankLevel,
                                 json.description);
         recordList.push(record);
     }

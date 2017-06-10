@@ -1,15 +1,21 @@
-function Record(date, distanceTraveled, fuelUsed, description) {
+function Record(date, distanceTraveled, initialTanklevel, dayEndTankLevel, description) {
     /**
      * Represents a fuel record.
      * @param {string} date
      * @param {number} distanceTraveled
-     * @param {number} fuelUsed
+     * @param {number} initialTanklevel
+     * @param {number} dayEndTankLevels
      * @param {string} description Optional parameter that describes the trip
      */
     this.date = date;
     this.distanceTraveled = distanceTraveled;
-    this.fuelUsed = fuelUsed;
+    this.initialTanklevel = initialTanklevel;
+    this.dayEndTankLevel = dayEndTankLevel;
     this.description = description;
+    this.calculateFuelUsed = function (initialTanklevel, dayEndTankLevel) {
+        return initialTanklevel - dayEndTankLevel;
+    }
+    this.fuelUsed = this.calculateFuelUsed(initialTanklevel, dayEndTankLevel);
     this.addToDOM = function(tbody) {
         /**
          * Adds new row into the DOM
