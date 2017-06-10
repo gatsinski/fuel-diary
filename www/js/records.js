@@ -147,4 +147,28 @@ function RecordList(list, selector) {
         $tr.append('<td>' + totalFuel + '</td>');
         $tbody.append($tr);
     };
+    this.splitByDaysOfWeek = function() {
+        var record, totalFuel, totalDistance;
+        totalFuel = totalDistance = 0;
+
+        var currentDate = new Date();
+        var currentMonth = currentDate.getMonth();
+        var recordDate;
+
+        var weekDays = [];
+        for (var i = 0; i < 7; i++) {
+            weekDays[i] = 0;
+        }
+
+        for(var i = 0; i < this.list.length; i++) {
+            record = this.list[i];
+            recordDate = new Date(record.date);
+            weekDays[recordDate.getDay()]++;
+        }
+
+        return weekDays;
+    };
+    this.getTotal = function() {
+        return this.list.length;
+    };
 }
