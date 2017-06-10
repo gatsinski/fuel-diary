@@ -76,7 +76,7 @@ var Controller = function() {
 
             if (viewButton == 'home-button') {
                 $("#tab-content").load("./views/home_view.html", function(data) {
-                    if ($.inArray('home_view', self.scriptFlags)) {
+                    if ($.inArray('home_view', self.scriptFlags) < 0) {
                         self.scriptFlags.push('home_view');
                         $.getScript("js/views/home_view.js");
                     } else {
@@ -85,14 +85,14 @@ var Controller = function() {
                 });
             } else if (viewButton == 'new-record-button') {
                 $("#tab-content").load("./views/new_record_view.html", function(data) {
-                    if ($.inArray('new_record_view', self.scriptFlags)) {
+                    if ($.inArray('new_record_view', self.scriptFlags) < 0) {
                         self.scriptFlags.push('new_record_view');
                         $.getScript("js/views/new_record_view.js");
                     }
                 });
             } else {
                 $("#tab-content").load("./views/all_records_view.html", function(data) {
-                    if ($.inArray('all_records_view', self.scriptFlags)) {
+                    if ($.inArray('all_records_view', self.scriptFlags) < 0) {
                         self.scriptFlags.push('all_records_view');
                         $.getScript("js/views/all_records_view.js");
                     } else {
