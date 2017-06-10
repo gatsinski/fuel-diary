@@ -30,5 +30,6 @@ $('body').on('submit', '#new_record_form', function(event) {
                     input[type=number],\
                     input[type=date],\
                     textarea").val('');
+        recordList = loadRecords();
     }
 });

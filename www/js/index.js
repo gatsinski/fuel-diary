@@ -75,7 +75,14 @@ var Controller = function() {
             $tab.empty();
 
             if (viewButton == 'home-button') {
-                $("#tab-content").load("./views/home_view.html"); 
+                $("#tab-content").load("./views/home_view.html", function(data) {
+                    if ($.inArray('home_view', self.scriptFlags)) {
+                        self.scriptFlags.push('home_view');
+                        $.getScript("js/views/home_view.js");
+                    } else {
+                        createWeekActivityChart();
+                    }
+                });
             } else if (viewButton == 'new-record-button') {
                 $("#tab-content").load("./views/new_record_view.html", function(data) {
                     if ($.inArray('new_record_view', self.scriptFlags)) {
@@ -113,3 +120,23 @@ function sortByDate(a, b){
   var date_b = new Date(b.date); 
   return ((date_a < date_b) ? -1 : ((date_a > date_b) ? 1 : 0));
 }
+
+function loadRecords() {
+    var json;
+    var storage = window.localStorage;
+    var recordList = [];
+    var record = {};
+
+    for (var i = 0; i < storage.length; i++) {
+        json = JSON.parse(storage.getItem(storage.key(i)));
+        var record = new Record(json.date,
+                                json.distanceTraveled,
+                                json.fuelUsed,
+                                json.description);
+        recordList.push(record);
+    }
+    recordList = new RecordList(recordList, '#tab-content tbody');
+    return recordList;
+}
+
+var recordList = loadRecords();
