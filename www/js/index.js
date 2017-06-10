@@ -96,7 +96,7 @@ var Controller = function() {
                         self.scriptFlags.push('all_records_view');
                         $.getScript("js/views/all_records_view.js");
                     } else {
-                        recordList.showThisYearOnly();
+                        recordList.showThisMonthOnly();
                     }
                 });
             }
