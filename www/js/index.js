@@ -117,7 +117,7 @@ function validateField(field)
 
 function sortByDate(a, b){
   var date_a = new Date(a.date);
-  var date_b = new Date(b.date); 
+  var date_b = new Date(b.date);
   return ((date_a < date_b) ? -1 : ((date_a > date_b) ? 1 : 0));
 }
 
@@ -131,7 +131,10 @@ function loadRecords() {
         json = JSON.parse(storage.getItem(storage.key(i)));
         var record = new Record(json.date,
                                 json.distanceTraveled,
-                                json.fuelUsed,
+                                json.initialTankLevel,
+                                json.dayEndTankLevel,
+                                json.refuel,
+                                json.amountPaid,
                                 json.description);
         recordList.push(record);
     }
