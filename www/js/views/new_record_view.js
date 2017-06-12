@@ -10,7 +10,7 @@ $('body').on('submit', '#new_record_form', function(event) {
         inputDate,
         currentDate;
 
-    $(".form-control.required").each(function(index) {
+    $(".form-control").each(function(index) {
 
         $field = $(this);
         if ($field.hasClass('required') && !$field.val()) {
