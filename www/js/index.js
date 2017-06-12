@@ -117,7 +117,7 @@ function validateField(field)
 
 function sortByDate(a, b){
   var date_a = new Date(a.date);
-  var date_b = new Date(b.date); 
+  var date_b = new Date(b.date);
   return ((date_a < date_b) ? -1 : ((date_a > date_b) ? 1 : 0));
 }
 
@@ -133,6 +133,8 @@ function loadRecords() {
                                 json.distanceTraveled,
                                 json.initialTankLevel,
                                 json.dayEndTankLevel,
+                                json.refuel,
+                                json.amountPaid,
                                 json.description);
         recordList.push(record);
     }

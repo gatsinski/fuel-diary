@@ -1,16 +1,26 @@
-function Record(date, distanceTraveled, initialTanklevel, dayEndTankLevel, description) {
+function Record(date,
+                distanceTraveled,
+                initialTanklevel,
+                dayEndTankLevel,
+                refuel,
+                amountPaid,
+                description) {
     /**
      * Represents a fuel record.
      * @param {string} date
      * @param {number} distanceTraveled
      * @param {number} initialTanklevel
      * @param {number} dayEndTankLevels
+     * @param {number} refuel
+     * @param {number} amountPaid
      * @param {string} description Optional parameter that describes the trip
      */
     this.date = date;
     this.distanceTraveled = distanceTraveled;
     this.initialTanklevel = initialTanklevel;
     this.dayEndTankLevel = dayEndTankLevel;
+    this.refuel = refuel || 0;
+    this.amountPaid = amountPaid || 0;
     this.description = description;
     this.calculateFuelUsed = function (initialTanklevel, dayEndTankLevel) {
         return initialTanklevel - dayEndTankLevel;
@@ -23,12 +33,11 @@ function Record(date, distanceTraveled, initialTanklevel, dayEndTankLevel, descr
          */
 
         $tbody = $(tbody);
-
         $tr = $('<tr>')
-        $tr.append('<td>' + this.dateParser(this.date) + '</td>');
+        $tr.append('<td data-original-date="' + this.date + '">' + this.dateParser(this.date) + '</td>');
         $tr.append('<td>' + this.distanceTraveled + '</td>');
         $tr.append('<td>' + this.fuelUsed + '</td>');
-        $tr.append('<td>' + this.description + '</td>');
+        $tr.append('<td>' + this.refuel + '</td>');
         $tbody.append($tr);
     };
     this.dateParser = function (dateString) {
@@ -53,10 +62,10 @@ function RecordList(list, selector) {
     /**
      * Represents a list of fuel records.
      * @param {list} list
-     * @param {string} selector A selector to the HTML element where the list will be added 
+     * @param {string} selector A selector to the HTML element where the list will be added
      */
     this.list = list;
-    this.selector = selector; 
+    this.selector = selector;
     this.showAll = function(selector) {
         if (selector == undefined) {
             selector = this.selector;
@@ -177,4 +186,14 @@ function RecordList(list, selector) {
     this.getTotal = function() {
         return this.list.length;
     };
+    this.getByDate = function(date) {
+        var record;
+
+        for(var i = 0; i < this.list.length; i++) {
+            record = this.list[i];
+            if (record.date == date) {
+                return record;
+            }
+        }
+    }
 }

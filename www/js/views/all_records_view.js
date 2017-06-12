@@ -22,3 +22,23 @@ $('body').on('click', '#erase_all', function() {
         $('#tab-content table').remove();
     }
 });
+
+$('body').on('click', 'table tbody tr', function() {
+    var date = $(this).children('td:first').data('originalDate');
+    if (date) {
+        record = recordList.getByDate(date);
+        $("div.record-data").append('<p>Date: ' + record.dateParser(record.date) + '</p>');
+        $("div.record-data").append('<p>Fuel used: ' + record.fuelUsed + '</p>');
+        $("div.record-data").append('<p>Distance traeled: ' + record.distanceTraveled + '</p>');
+        $("div.record-data").append('<p>Refuel: ' + record.refuel + '</p>');
+        $("div.record-data").append('<p>Amount paid: ' + record.amountPaid + '</p>');
+        if (record.description) {
+            $("div.record-data").append('<p>Description:' + record.description + '</p>');
+        }
+        $("div.modal").removeClass('hidden');
+    }
+});
+
+$('body').on('click', '#modal-close-button', function() {
+    $("div.modal").addClass('hidden');
+});
