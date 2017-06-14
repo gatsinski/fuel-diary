@@ -158,8 +158,8 @@ function RecordList(list, selector) {
 
         $tr = $('<tr>')
         $tr.append('<td> Total </td>');
-        $tr.append('<td>' + totalDistance + '</td>');
         $tr.append('<td>' + totalFuel + '</td>');
+        $tr.append('<td>' + totalDistance + '</td>');
         $tbody.append($tr);
     };
     this.splitByDaysOfWeek = function() {
