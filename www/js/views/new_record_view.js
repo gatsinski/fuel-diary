@@ -16,7 +16,7 @@ $('body').on('submit', '#new_record_form', function(event) {
         if ($field.hasClass('required') && !$field.val()) {
             $field.removeClass('valid').addClass('invalid');
             valid = false;
-        } else if($field.hasClass('positive') && $field.val() <= 0) {
+        } else if($field.hasClass('positive') && $field.val() < 0) {
             $field.removeClass('valid').addClass('invalid');
             valid = false;
         } else {
